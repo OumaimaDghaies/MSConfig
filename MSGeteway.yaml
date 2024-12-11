@@ -1,0 +1,21 @@
+eureka:
+  client:
+      serviceUrl:
+          defaultZone: http://localhost:9993/eureka
+spring:
+  cloud:
+      gateway:
+          routes:
+              - id: MicroserviceUser
+                uri: lb://MicroserviceUser
+                predicates:
+                    - Path= /utilisateur/**
+                filters:
+                    - RewritePath= /utilisateur/(?<path>.*), /$\{path}
+
+              - id: MicroserviceProjet
+                uri: lb://MicroserviceProjet
+                predicates:
+                    - Path= /projet/**
+                filters:
+                    - RewritePath= /projet/(?<path>.*), /$\{path}
